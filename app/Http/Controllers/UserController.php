@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Models\User;
 
 class UserController
 {
@@ -13,14 +12,19 @@ class UserController
         return DB::select($sql);
     }
     function insertUser(Request $req) {
-        $user = new User($req->name, $req->email,$req->password);
+        $user = array($req->name, $req->email,$req->password);
         $sql = "INSERT INTO users(name, email, password) VALUES(?,?,?)";
-        DB::insert($sql,$user->getAttributes());
+        DB::insert($sql,$user);
     }
     function deleteUser(Request $req) {
         $name = $req->username;
         $email = $req->email;
         $sql = "DELETE FROM users WHERE name= ? AND email = ?";
         DB::delete($sql,[$name,$email]);
+    }
+
+    function findUserNameById($id) {
+        $sql = "SELECT name FROM users WHERE id = ?";
+        return DB::select($sql,[$id]);
     }
 }

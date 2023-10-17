@@ -7,36 +7,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Contestant
 {
     use HasFactory;
-    private $user;
-    private $email;
+    private $user_id;
     private $round;
     private $tournament_name;
     private $tournament_year;
 
 
-    function __construct($user, $email, $round, $tournament_name, $tournament_year) {
-        $this->user = $user;
-        $this->email= $email;
+    function __construct($user_id, $round, $tournament_name, $tournament_year) {
+        $this->user_id = $user_id;
         $this->round = $round;
         $this->tournament_name = $tournament_name;
         $this->tournament_year = $tournament_year;
     }
     function getAttributes() {
         $arr = array();
-        array_push($arr, $this->getUser(), $this->getEmail(), $this->getRound(), $this->getTournamentName(), $this->getTournamentYear());
+        array_push($arr, $this->getUserId(), $this->getRound(), $this->getTournamentName(), $this->getTournamentYear());
         return $arr;
     }
-    function getUser() {
+    function getUserId() {
         return $this->user;
     }
-    function setUser($user) {
+    function setUserId($user) {
         $this->user = $user;
-    }
-    function getEmail() {
-        return $this->email;
-    }
-    function setEmail($email) {
-        $this->email = $email;
     }
 
     function getRound() {

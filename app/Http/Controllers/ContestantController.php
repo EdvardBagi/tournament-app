@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contestant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,18 +12,15 @@ class ContestantController
         return DB::select($sql);
     }
     function insertContestant(Request $req) {
-        $contestant = new Contestant($req->user, $req->email,$req->round, $req->tournament_name, $req->tournament_year);
-        $sql = "INSERT INTO contestants(user_name,user_email, round,tournament_name, tournament_year) VALUES(?,?,?,?,?)";
-        DB::insert($sql,$contestant->getAttributes());
+        $arr = array();
+        array_push($arr,$req->id,$req->round,$req->tournament_name,$req->tournament_year);
+        $sql = "INSERT INTO contestants(user_id, round,tournament_name, tournament_year) VALUES(?,?,?,?)";
+        DB::insert($sql,$arr);
     }
     function deleteContestant(Request $req) {
-        $name = $req->name;
-        $email = $req->email;
-        $round = $req->round;
-        $tournament_name = $req->tournament_name;
-        $tournament_year = $req->tournament_year;
-
-        $sql = "DELETE FROM contestants WHERE user_name = ? AND user_email = ? AND round = ? AND tournament_name = ? AND tournament_year = ?";
-        DB::delete($sql,[$name,$email,$round,$tournament_name,$tournament_year]);
+        $arr = array();
+        array_push($arr,$req->id,$req->round,$req->tournament_name,$req->tournament_year);
+        $sql = "DELETE FROM contestants WHERE user_id = ? AND round = ? AND tournament_name = ? AND tournament_year = ?";
+        DB::delete($sql,$arr);
     }
 }

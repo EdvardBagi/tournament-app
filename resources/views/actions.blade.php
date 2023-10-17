@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="_token" content="{{ csrf_token() }}"/>
-    <title>Operations</title>
+    <title>Actions</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="../js/jquery-3.7.1.js"></script>
     <script>
@@ -62,7 +62,7 @@
             $.ajax({
                 type: 'POST',
                 url: '{{ url("insertContestant") }}',
-                data: {'user': list[0],'email': list[1],'round': arr[0],'tournament_name':arr[1],'tournament_year':arr[2]},
+                data: {'id': list[0],'round': arr[0],'tournament_name':arr[1],'tournament_year':arr[2]},
                 success: function () {
                     $('#contestantForm').load(document.URL + ' #contestantForm');
                     $('#contestantTable').load(document.URL + ' #contestantTable');
@@ -113,15 +113,14 @@
         $(document).on('click', '.deleteContestant', function (e) {
             e.preventDefault();
             let row = $(this).closest('tr');
-            let name = row.find('td:nth-child(1)').text();
-            let email = row.find('td:nth-child(2)').text();
-            let round = row.find('td:nth-child(3)').text();
-            let tournament_name = row.find('td:nth-child(4)').text();
-            let tournament_year = row.find('td:nth-child(5)').text();
+            let id = row.find('td:nth-child(1)').text();
+            let round = row.find('td:nth-child(2)').text();
+            let tournament_name = row.find('td:nth-child(3)').text();
+            let tournament_year = row.find('td:nth-child(4)').text();
             $.ajax({
                 type: 'POST',
                 url: '{{ url("deleteContestant") }}',
-                data: {'name': name,'email': email, 'round': round,'tournament_name':tournament_name,'tournament_year':tournament_year},
+                data: {'id': id, 'round': round,'tournament_name':tournament_name,'tournament_year':tournament_year},
                 success: function () {
                     $('#contestantTable').load(document.URL + ' #contestantTable');
                 }
@@ -147,6 +146,10 @@
     </script>
 </head>
 <body>
+@if(Auth::user() === null || Auth::user()->email != "admin@gmail.com")
+    <script>window.location = "/"</script>
+@endif
+
 <?php
 
 use App\Http\Controllers\UserController;
@@ -166,7 +169,11 @@ $tournaments = $tournament_controller->findAll();
 <ul>
     <li><a href="{{ url('/') }}">Homepage</a></li>
     <li><a href="{{ url('/actions') }}">Actions</a></li>
-    <li style="float:right"><a href="{{ url('/login') }}">Login</a></li>
+    @if(isset(Auth::user()->email))
+        <li style="float:right"><a href="{{ url('/logout') }}">Logout</a></li>
+    @else
+        <li style="float:right"><a href="{{ url('/login') }}">Login</a></li>
+    @endif
 </ul>
 <div class="addAndList">
     <div class="add">
@@ -241,7 +248,7 @@ $tournaments = $tournament_controller->findAll();
                 <option value="" disabled selected hidden>Select User</option>
                 <?php
                 foreach ($users as $u) {
-                    echo "<option>" . $u->{'name'} . "," . $u->{'email'} . "</option>";
+                    echo "<option>" . $u->{'id'} . "," . $u->{'name'} . "</option>";
                 }
                 ?>
             </select><br>
@@ -267,9 +274,9 @@ $tournaments = $tournament_controller->findAll();
             </tr>
             <?php
             foreach ($contestants as $contestant) {
+                $name = $user_controller->findUserNameById($contestant->{'user_id'});
                 echo "<tr>";
-                echo "<td>" . $contestant->{'user_name'} . "</td>";
-                echo "<td style='display:none;'>" . $contestant->{'user_email'} . "</td>";
+                echo "<td>" . $name[0]->{'name'} . "</td>";
                 echo "<td>" . $contestant->{'round'} . "</td>";
                 echo "<td>" . $contestant->{'tournament_name'} . "</td>";
                 echo "<td>" . $contestant->{'tournament_year'} . "</td>";
@@ -288,7 +295,6 @@ $tournaments = $tournament_controller->findAll();
             <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Password</th>
                 <th>Action</th>
             </tr>
             <?php
@@ -296,8 +302,11 @@ $tournaments = $tournament_controller->findAll();
                 echo "<tr>";
                 echo "<td>" . $user->{'name'} . "</td>";
                 echo "<td>" . $user->{'email'} . "</td>";
-                echo "<td>" . $user->{'password'} . "</td>";
-                echo "<td><input value='Delete' type='button' class='deleteUser'/></td>";
+                if($user->{'name'} != 'admin') {
+                    echo "<td><input value='Delete' type='button' class='deleteUser'/></td>";
+                } else {
+                    echo "<td></td>";
+                }
                 echo "</tr>";
             }
             ?>

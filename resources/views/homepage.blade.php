@@ -4,31 +4,65 @@
     <meta charset="UTF-8">
     <title>Homepage</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="../js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#bigButton').on('click', function () {
+                window.location = '{{url('/actions')}}';
+            });
+        });
+
+    </script>
 </head>
 <body>
+
 <ul>
     <li><a href="{{ url('/') }}">Homepage</a></li>
+    @if(Auth::user() !== null && Auth::user()->email === "admin@gmail.com")
     <li><a href="{{ url('/actions') }}">Actions</a></li>
-    <li style="float:right"><a href="{{ url('/login') }}">Login</a></li>
+    @endif
+
+    @if(isset(Auth::user()->email))
+        <li style="float:right"><a href="{{ url('/logout') }}">Logout</a></li>
+    @else
+        <li style="float:right"><a href="{{ url('/login') }}">Login</a></li>
+    @endif
 </ul>
 
-    <div class="centerDiv">
-        <?php
-            use App\Http\Controllers\TournamentController;
+<div class="centerDiv">
+    <button type="button" id="bigButton">Add Tournament</button>
+    @if(Auth::user() === null || Auth::user()->email !== "admin@gmail.com")
+        <script>
+            $('#bigButton').attr('disabled',true).css('background-color','gray');
 
-            $tournament_controller= new TournamentController();
-            $data = $tournament_controller->findAll();
+        </script>
 
-            echo "<table id='centerTable' class='tableStyle'>";
-            echo "<tr><th>Tournament</th><th>Year</th></tr>";
-            foreach ($data as $tournament) {
-                echo "<tr>";
-                echo "<td>" . $tournament->{'name'} . "</td>";
-                echo "<td>" . $tournament->{'year'} . "</td>";
-                echo "</tr>";
-            }
-            echo "</table>"
-        ?>
+    <br>
+    <div class="centerDiv" style="width: 300px">
+        <p style="font-size: 0.7em">
+            You have to log in as admin if you want to add tournaments.
+            (email: 'admin@gmail.com', password: 'admin')
+        </p>
     </div>
+    @endif
+    <table id='centerTable' class='tableStyle'>
+        <tr><th>Tournament</th><th>Year</th></tr>
+        <?php
+
+        use App\Http\Controllers\TournamentController;
+
+        $tournament_controller = new TournamentController();
+        $data = $tournament_controller->findAll();
+
+        foreach ($data as $tournament) {
+            echo "<tr>";
+            echo "<td>" . $tournament->{'name'} . "</td>";
+            echo "<td>" . $tournament->{'year'} . "</td>";
+            echo "</tr>";
+        }
+        ?>
+    </table>
+
+</div>
 </body>
 </html>

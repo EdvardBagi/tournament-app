@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\RoundController;
 use App\Http\Controllers\ContestantController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +26,8 @@ Route::get('/', function () {
 Route::get('/actions', function () {
     return view('actions');
 });
-Route::get('/login', function () {
-    return view('login');
-});
+Route::get('/login',[LoginController::class, 'index']);
+Route::get('/logout',[LoginController::class, 'logout']);
 
 Route::post('insertUser',[UserController::class, 'insertUser']);
 Route::post('insertTournament',[TournamentController::class, 'insertTournament']);
@@ -37,4 +37,7 @@ Route::post('deleteUser',[UserController::class, 'deleteUser']);
 Route::post('deleteContestant',[ContestantController::class, 'deleteContestant']);
 Route::post('deleteRound',[RoundController::class, 'deleteRound']);
 Route::post('deleteTournament',[TournamentController::class, 'deleteTournament']);
+
+Route::post('/login/checkLogin', [LoginController::class, 'checkLogin']);
+
 

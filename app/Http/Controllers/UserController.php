@@ -27,4 +27,8 @@ class UserController
         $sql = "SELECT name FROM users WHERE id = ?";
         return DB::select($sql,[$id]);
     }
+    function findUserIdByName($name) {
+        $sql = "SELECT id FROM users WHERE name = ?";
+        return DB::select($sql,[$name]);
+    }
 }

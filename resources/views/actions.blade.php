@@ -115,9 +115,9 @@
             e.preventDefault();
             let row = $(this).closest('tr');
             let id = row.find('td:nth-child(1)').text();
-            let round = row.find('td:nth-child(2)').text();
-            let tournament_name = row.find('td:nth-child(3)').text();
-            let tournament_year = row.find('td:nth-child(4)').text();
+            let round = row.find('td:nth-child(3)').text();
+            let tournament_name = row.find('td:nth-child(4)').text();
+            let tournament_year = row.find('td:nth-child(5)').text();
             $.ajax({
                 type: 'POST',
                 url: '{{ url("deleteContestant") }}',
@@ -278,6 +278,7 @@ $tournaments = $tournament_controller->findAll();
             foreach ($contestants as $contestant) {
                 $name = $user_controller->findUserNameById($contestant->{'user_id'});
                 echo "<tr>";
+                echo "<td hidden>" . $contestant->{'user_id'} . "</td>";
                 echo "<td>" . $name[0]->{'name'} . "</td>";
                 echo "<td>" . $contestant->{'round'} . "</td>";
                 echo "<td>" . $contestant->{'tournament_name'} . "</td>";

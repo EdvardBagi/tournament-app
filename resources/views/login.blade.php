@@ -20,7 +20,15 @@
         <input type="password"  name="password" placeholder="Password"/><br>
         <input type="submit" value="Login" id="login"/>
     </form>
-    </div>
+        <div class="centerDiv" style="width: 300px">
+            <p style="font-size: 0.7em">
+                email: 'admin@gmail.com', password: 'admin'<br>
+                Every user follows the same pattern:<br>
+                email: xyz@gmail.com<br>
+                password: xyz;<br>
+                To see the users login as admin first.
+            </p>
+        </div>
 
 </body>
 </html>

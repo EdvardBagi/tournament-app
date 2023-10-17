@@ -16,19 +16,19 @@ class UsersTablesSeeder extends Seeder
     {
         User::create([
             'name'    => 'Jon Snow',
-            'email'    => 'jonsnow@winteris.here',
+            'email'    => 'jonsnow@gmail.com',
             'password'   =>  Hash::make('jonsnow'),
             //'remember_token' =>  str_random(10),
         ]);
         User::create([
             'name'    => 'Thanos',
-            'email'    => 'thanos@SNAP.end',
+            'email'    => 'thanos@gmail.com',
             'password'   =>  Hash::make('thanos'),
             //'remember_token' =>  str_random(10),
         ]);
         User::create([
             'name'    => 'John Smith',
-            'email'    => 'average@guy.here',
+            'email'    => 'johnsmith@gmail.com',
             'password'   =>  Hash::make('johnsmith'),
             //'remember_token' =>  str_random(10),
         ]);

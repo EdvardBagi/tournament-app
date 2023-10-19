@@ -13,7 +13,7 @@ class TournamentController
         return DB::select($sql);
     }
     function insertTournament(Request $req) {
-        $tournament = new Tournament($req->nameT, $req->year);
+        $tournament = new Tournament(strip_tags($req->nameT), strip_tags($req->year));
         $sql = "INSERT INTO tournaments(name, year) VALUES(?,?)";
         DB::insert($sql,$tournament->getAttributes());
     }

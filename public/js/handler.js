@@ -5,7 +5,6 @@ $(document).ready(function () {
     });
     $('#submitTournament').on('click', function (e) {
         e.preventDefault();
-        console.log('Tried');
         let name = $('#nameT').val();
         let year = $('#year').val();
         $.ajax({
@@ -18,7 +17,36 @@ $(document).ready(function () {
                 $('#roundForm').load(document.URL + ' #roundForm');
             },
             error: function () {
-                alert('Tournament already exists.');
+                if(name.length === 0 || year.length === 0) {
+                    alert('All fields are required.')
+                } else {
+                    alert('Tournament already exists.');
+                }
+
+            }
+        });
+    });
+    $(document).on('click', '#submitUser', function (e) {
+        e.preventDefault();
+        let name = $('#userName').val();
+        let email = $('#userEmail').val();
+        let password = $('#userPassword').val();
+
+        $.ajax({
+            type: 'POST',
+            url: $('meta[name="US"]').attr('content'),
+            data: {'name': name,'email': email, 'password':password},
+            success: function () {
+                //$('#userForm').load(document.URL + ' #userForm');
+                $('#userForm')[0].reset();
+                $('#userTable').load(document.URL + ' #userTable');
+            },
+            error: function () {
+                if(name.length === 0 || year.length === 0 || password.length === 0) {
+                    alert('All fields are required.')
+                } else {
+                    alert('User already exists.');
+                }
             }
         });
     });
@@ -27,6 +55,7 @@ $(document).on('click', '#submitRound', function (e) {
     e.preventDefault();
     let name = $('#nameR').val();
     let both = $('#both option:selected').text();
+    console.log(typeof (both), both);
     let arr = both.split(",");
     let name2 = arr[0];
     let year = arr[1];
@@ -40,7 +69,11 @@ $(document).on('click', '#submitRound', function (e) {
             $('#contestantForm').load(document.URL + ' #contestantForm');
         },
         error: function () {
-            alert('Round for this tournament already exists.');
+            if(both === "Select Tournament" || name.length === 0 ) {
+                alert('All fields are required.')
+            } else {
+                alert('Round already exists.');
+            }
         }
     });
 });
@@ -59,10 +92,16 @@ $(document).on('click', '#submitContestant', function (e) {
             $('#contestantTable').load(document.URL + ' #contestantTable');
         },
         error: function () {
-            alert('Contestant to this round and tournament already exists.');
+            if(name === "Select User" || round === "Select Round" ) {
+                alert('All fields are required.')
+            } else {
+                alert('Contestant already exists.');
+            }
         }
     });
 });
+
+
 
 //DELETES
 $(document).on('click', '.deleteTournament', function (e) {

@@ -7,6 +7,7 @@
     <meta name="TS" content="{{ url("insertTournament") }}"/>
     <meta name="RS" content="{{ url("insertRound") }}"/>
     <meta name="CS" content="{{ url("insertContestant") }}"/>
+    <meta name="US" content="{{ url("insertUser") }}"/>
     <meta name="TD" content="{{ url("deleteTournament") }}"/>
     <meta name="RD" content="{{ url("deleteRound") }}"/>
     <meta name="CD" content="{{ url("deleteContestant") }}"/>
@@ -50,8 +51,8 @@ $tournaments = $tournament_controller->findAll();
 <div class="addAndList">
     <div class="add">
         <form id="tournamentForm">
-            <input type="text" name="nameT" id="nameT" placeholder="Tournament's name"/><br>
-            <input type="number" name="year" id="year" placeholder="Tournament's year"/><br>
+            <input type="text" name="nameT" id="nameT" placeholder="Tournament's name" required/><br>
+            <input type="number" name="year" id="year" placeholder="Tournament's year" required/><br>
             <input type="submit" value="Add Tournament" id="submitTournament"/>
         </form>
     </div>
@@ -163,6 +164,14 @@ $tournaments = $tournament_controller->findAll();
 </div>
 <hr>
 <div class="addAndList">
+    <div class="add">
+        <form id="userForm">
+            <input type="text" name="userName" id="userName" placeholder="Name"/><br/>
+            <input type="email" name="userEmail" id="userEmail" placeholder="Email"/><br/>
+            <input type="password" name="userPassword" id="userPassword" placeholder="Password"/><br/>
+            <input type="submit" value="Submit User" id="submitUser"/>
+        </form>
+    </div>
     <div class="list">
         <table class='tableStyle' id="userTable">
             <tr>

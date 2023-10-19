@@ -13,7 +13,7 @@ class RoundController
         return DB::select($sql);
     }
     function insertRound(Request $req) {
-        $round = new Round($req->nameR, $req->nameTournament, $req->year);
+        $round = new Round(strip_tags($req->nameR), strip_tags($req->nameTournament), strip_tags($req->year));
         $sql = "INSERT INTO rounds(name,tournament_name, tournament_year) VALUES(?,?,?)";
         DB::insert($sql,$round->getAttributes());
     }

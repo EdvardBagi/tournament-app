@@ -53,7 +53,7 @@ $tournaments = $tournament_controller->findAll();
         <form id="tournamentForm">
             <input type="text" name="nameT" id="nameT" placeholder="Tournament's name" required/><br>
             <input type="number" name="year" id="year" placeholder="Tournament's year" required/><br>
-            <input type="submit" value="Add Tournament" id="submitTournament"/>
+            <input type="submit" value="Add Tournament" id="submitTournament" required/>
         </form>
     </div>
     <div class="list" id="tournamentDiv">

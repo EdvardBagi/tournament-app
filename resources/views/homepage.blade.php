@@ -31,21 +31,20 @@
 </ul>
 
 <div class="centerDiv">
-    <button type="button" id="bigButton">Add Tournament</button>
+        <button type="button" id="bigButton">Add Tournament</button>
     @if(Auth::user() === null || Auth::user()->email !== "admin@gmail.com")
         <script>
             $('#bigButton').attr('disabled',true).css('background-color','gray');
-
         </script>
-
     <br>
-    <div class="centerDiv" style="width: 300px">
+    <div class="centerDiv" style="min-width: 200px;">
         <p style="font-size: 0.7em">
             You have to log in as admin if you want to add tournaments.
             (email: 'admin@gmail.com', password: 'admin')
         </p>
     </div>
     @endif
+    <br>
     <table id='centerTable' class='tableStyle'>
         <tr><th>Tournament</th><th>Year</th></tr>
         <?php

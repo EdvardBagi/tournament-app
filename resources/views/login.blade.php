@@ -12,6 +12,12 @@
         <li style="float:right"><a href="{{ url('/login') }}">Login</a></li>
     </ul>
     <div id="divLogin">
+        @if ($message = Session::get('error'))
+            <div>
+                <h2 style="color: red">{{ $message }}</h2>
+
+            </div>
+        @endif
 
 
     <form method="post" action="{{ url('/login/checkLogin') }}" id="loginForm">

@@ -4,10 +4,13 @@ body {
 }
 
 .centerDiv {
+    display: flex;
     margin: auto;
     width: 25%;
     padding: 10px;
+    align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 #centerTable {
@@ -134,13 +137,18 @@ input[type=submit]:hover {
     background-color: darkred;
     color: white;
     padding: 20px 40px;
-    margin: 8px 90px;
+    margin: 0 auto;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
+    border-radius: 4px;
     justify-content: center;
 }
 
 #bigButton:hover {
     background-color: lightcoral;
+}
+@media screen and (max-width: 600px) {
+    .addAndList {
+        flex-direction: column;
+    }
 }

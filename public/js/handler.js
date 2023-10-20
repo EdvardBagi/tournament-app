@@ -7,75 +7,76 @@ $(document).ready(function () {
         e.preventDefault();
         let name = $('#nameT').val();
         let year = $('#year').val();
-        $.ajax({
-            type: 'POST',
-            url: $('meta[name="TS"]').attr('content'),
-            data: {'nameT': name, 'year': year},
-            success: function () {
-                $('#tournamentForm')[0].reset();
-                $('#tournamentTable').load(document.URL + ' #tournamentTable');
-                $('#roundForm').load(document.URL + ' #roundForm');
-            },
-            error: function () {
-                if(name.length === 0 || year.length === 0) {
-                    alert('All fields are required.')
-                } else {
+        if(name.length === 0 || year.length === 0) {
+            alert('All fields are required.');
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: $('meta[name="TS"]').attr('content'),
+                data: {'nameT': name, 'year': year},
+                success: function () {
+                    $('#tournamentForm')[0].reset();
+                    $('#tournamentTable').load(document.URL + ' #tournamentTable');
+                    $('#roundForm').load(document.URL + ' #roundForm');
+                },
+                error: function () {
                     alert('Tournament already exists.');
                 }
+            });
+        }
 
-            }
-        });
+
     });
     $(document).on('click', '#submitUser', function (e) {
         e.preventDefault();
         let name = $('#userName').val();
         let email = $('#userEmail').val();
         let password = $('#userPassword').val();
-
-        $.ajax({
-            type: 'POST',
-            url: $('meta[name="US"]').attr('content'),
-            data: {'name': name,'email': email, 'password':password},
-            success: function () {
-                //$('#userForm').load(document.URL + ' #userForm');
-                $('#userForm')[0].reset();
-                $('#userTable').load(document.URL + ' #userTable');
-            },
-            error: function () {
-                if(name.length === 0 || year.length === 0 || password.length === 0) {
-                    alert('All fields are required.')
-                } else {
+        if(name.length === 0 || email.length === 0 || password.length === 0) {
+            alert('All fields are required.');
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: $('meta[name="US"]').attr('content'),
+                data: {'name': name,'email': email, 'password':password},
+                success: function () {
+                    $('#userForm')[0].reset();
+                    $('#userTable').load(document.URL + ' #userTable');
+                    $('#contestantForm').load(document.URL + ' #contestantForm');
+                },
+                error: function () {
                     alert('User already exists.');
                 }
-            }
-        });
+            });
+        }
+
+
     });
 });
 $(document).on('click', '#submitRound', function (e) {
     e.preventDefault();
     let name = $('#nameR').val();
     let both = $('#both option:selected').text();
-    console.log(typeof (both), both);
     let arr = both.split(",");
     let name2 = arr[0];
     let year = arr[1];
-    $.ajax({
-        type: 'POST',
-        url: $('meta[name="RS"]').attr('content'),
-        data: {'nameR': name, 'nameTournament': name2, 'year': year},
-        success: function () {
-            $('#roundForm').load(document.URL + ' #roundForm');
-            $('#roundTable').load(document.URL + ' #roundTable');
-            $('#contestantForm').load(document.URL + ' #contestantForm');
-        },
-        error: function () {
-            if(both === "Select Tournament" || name.length === 0 ) {
-                alert('All fields are required.')
-            } else {
+    if(name2 === undefined || year === undefined || name.length === 0 || name2.length === 0 || year.length ===0) {
+        alert('All fields are required.');
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: $('meta[name="RS"]').attr('content'),
+            data: {'nameR': name, 'nameTournament': name2, 'year': year},
+            success: function () {
+                $('#roundForm').load(document.URL + ' #roundForm');
+                $('#roundTable').load(document.URL + ' #roundTable');
+                $('#contestantForm').load(document.URL + ' #contestantForm');
+            },
+            error: function () {
                 alert('Round already exists.');
             }
-        }
-    });
+        });
+    }
 });
 $(document).on('click', '#submitContestant', function (e) {
     e.preventDefault();
@@ -83,22 +84,28 @@ $(document).on('click', '#submitContestant', function (e) {
     let round = $('#round option:selected').text();
     let list = name.split(",");
     let arr = round.split(",");
-    $.ajax({
-        type: 'POST',
-        url: $('meta[name="CS"]').attr('content'),
-        data: {'id': list[0],'round': arr[0],'tournament_name':arr[1],'tournament_year':arr[2]},
-        success: function () {
-            $('#contestantForm').load(document.URL + ' #contestantForm');
-            $('#contestantTable').load(document.URL + ' #contestantTable');
-        },
-        error: function () {
-            if(name === "Select User" || round === "Select Round" ) {
-                alert('All fields are required.')
-            } else {
+    let id = list[0];
+    let userName = list[1];
+    let roundName = arr[0];
+    let tournament = arr[1];
+    let year = arr[2];
+
+    if(id === undefined || roundName === undefined || tournament === undefined || year === undefined ||userName === undefined || userName.length ===0) {
+        alert('All fields are required.');
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: $('meta[name="CS"]').attr('content'),
+            data: {'id': id,'round': roundName,'tournament_name':tournament,'tournament_year':year},
+            success: function () {
+                $('#contestantForm').load(document.URL + ' #contestantForm');
+                $('#contestantTable').load(document.URL + ' #contestantTable');
+            },
+            error: function () {
                 alert('Contestant already exists.');
             }
-        }
-    });
+        });
+    }
 });
 
 

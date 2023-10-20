@@ -1,0 +1,15 @@
+Importáljuk az adatbázist.
+A .env fájlban be kell állítani a megfelelő értékeket:
+-DB_PORT -> melyik porton elérhető az adatbázis
+-DB_DATABASE -> az adatbázis neve 
+-DB_USERNAME -> felhasználónév
+-DB_PASSWORD -> jelszó
+A config/database.php fájlban is hasonlóan a 'mysql' alatt ugyanezeket az értékeket.  Ezek után elindítjuk a MySQL szervert. 
+
+Mivel az ajánlott keretrendszer Laravel volt, és én evvel dolgoztam, feltételezem tudják futtatni a projektet minden gond nélkül, ez azt jelenti, hogy a php és a composer is helyesen van beállítva, ez esetben a projekt gyökérkönyvtárában "php artisan serve" paranccsal egy címet kapunk ahol a böngészőben elérhető az oldal. Amennyiben nem találja a "vendor/autoload.php" fájl-t, "composer install" parancs után kell újra próbálkozni.
+
+!!! A "composer install" parancs NEM telepíti a composer-t a számítógépre, ezt interneten keresztül kell letölteni és telepíteni amennyiben ez nem történt még meg, a parancs másra szolgál !!!
+
+Ha a php nincs a környezeti változók között, ez esetben be kell illeszteni a Path-hoz, illetve amennyiben composer nincs instalálva ez esetben lehet ezt is instalálni kell. Ezután a projekt gyökér könyvtárban egy terminált kell nyitni, "composer install" parancs után "php artisan serve" parancsot futtatni. Ekkor már múködnie kell.
+
+Amennyiben nem tud csatlakozni az adatbázishoz az importálás után sem, az .env és a config/database.php fájlokban újra kell ellenőrizni a megadott adatokat, és ezek helyességét.
